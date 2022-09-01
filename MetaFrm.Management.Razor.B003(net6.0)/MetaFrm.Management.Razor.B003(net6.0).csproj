@@ -10,13 +10,24 @@
     <PackageId>MetaFrm.Management.Razor.B003.net6.0</PackageId>
     <Version>6.0.0.0</Version>
     <Authors>dsun</Authors>
-    <Company>MetaFrm</Company>
-    <Copyright>Copyright 2022. DSUN all rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/dsuny/MetaFrm.Management.Razor.B003</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/dsuny/MetaFrm.Management.Razor.B003</RepositoryUrl>
+    <Company>Meta Framework</Company>
+    <Copyright>Copyright 2022. dsun all rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/MetaFrm/MetaFrm.Management.Razor.B003</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MetaFrm/MetaFrm.Management.Razor.B003</RepositoryUrl>
     <PackageTags>meta;framework;dotnet;</PackageTags>
 	
 	<SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss:fffZ"))</SourceRevisionId>
+	
+	<Title>MetaFrm.Management.Razor.B003</Title>
+	
+	<Product>MetaFrm.Management.Razor.B003</Product>
+	
+	<Description>Meta Framework
+(Multi platform &amp; Meta management)</Description>
+	
+	<PackageIcon>icon.png</PackageIcon>
+	
+	<ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +36,10 @@
     <Compile Include="..\src\Models\MenuPermissionsModel.cs" Link="Models\MenuPermissionsModel.cs" />
     <Compile Include="..\src\Models\SearchModel.cs" Link="Models\SearchModel.cs" />
     <Compile Include="..\src\ViewModels\B003ViewModel.cs" Link="ViewModels\B003ViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
 
 
@@ -36,6 +51,13 @@
     <PackageReference Include="MetaFrm.Core.net6.0" Version="6.0.0.4" />
     <PackageReference Include="MetaFrm.Razor.Essentials.net6.0" Version="6.0.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

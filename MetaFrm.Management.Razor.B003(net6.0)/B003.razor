@@ -10,46 +10,38 @@
 @using Microsoft.AspNetCore.Components.Web
 @inherits BaseComponent
 
-<div>
-    <TitleControl Title="@this.GetAttribute("Description")"></TitleControl>
+<TitleControl Title="@this.GetAttribute("Description")"></TitleControl>
 
-    @if (this.GroupWindowStatus == GroupWindowStatus.Close)
-    {
-        <DataGridControl TItem="MenuPermissionsModel" @ref="this.DataGridControl" Columns="this.ColumnDefinitions" DataItems="this.B003ViewModel.SelectResultModel" PagingEnabled="true"
-                     TableClass="table-hover"
-                     MovePage="this.Search"
-                     RowModify="this.RowModify">
-            <SearchInputControl>
-                <input type="text" class="form-control rounded-start" placeholder="Search" @bind-value="@this.B003ViewModel.SearchModel.SEARCH_TEXT" @onkeyup="@SearchKeydown" />
-            </SearchInputControl>
-            <SearchButtonControl>
-                <button class="btn btn-outline-primary btn-rounded-end" type="button" @onclick="(() => this.OnSearch())">
-                    <span class="oi oi-magnifying-glass" />
-                </button>
-            </SearchButtonControl>
-        </DataGridControl>
-    }
-    else
-    {
-        <GroupControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))"
-                  Close="this.Close" GroupWindowStatus="this.GroupWindowStatus">
-            <Control>
-                <EditForm class="container" Model="@this.SelectItem" OnValidSubmit="this.Save">
-                    <DataAnnotationsValidator />
-                    
-                    <div class="row">
-                        <FieldControl Label="Permissions ID" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
-                        <FieldControl Label="Permissions name" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.NAME"></FieldControl>
-                        <FieldControl Label="Inactive" CssClassDiv="py-2 col-md-4" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
-                    </div>
+<DataGridControl TItem="MenuPermissionsModel" @ref="this.DataGridControl" Columns="this.ColumnDefinitions" DataItems="this.B003ViewModel.SelectResultModel" PagingEnabled="true"
+                 TableClass="table-hover"
+                 MovePage="this.Search"
+                 RowModify="this.RowModify">
+    <SearchInputControl>
+        <input type="text" class="form-control rounded-start" placeholder="Search" @bind-value="@this.B003ViewModel.SearchModel.SEARCH_TEXT" @onkeyup="@SearchKeydown" />
+    </SearchInputControl>
+    <SearchButtonControl>
+        <button class="btn btn-outline-primary btn-rounded-end" type="button" @onclick="(() => this.OnSearch())">
+            <span class="oi oi-magnifying-glass" />
+        </button>
+    </SearchButtonControl>
+</DataGridControl>
 
-                    <DataGridControl TItem="MenuModel" Columns="this.ColumnDefinitionsMenu" DataItems="this.SelectItem.Menu" PagingEnabled="false"
-                                 TableClass="table-hover">
-                    </DataGridControl>
+<ModalControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))">
+    <Control>
+        <EditForm class="container" Model="@this.SelectItem" OnValidSubmit="this.Save">
+            <DataAnnotationsValidator />
 
-                    <CommandControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" SaveIsSubmit="true" Init="this.Init" />
-                </EditForm>
-            </Control>
-        </GroupControl>
-    }
-</div>
+            <div class="row">
+                <FieldControl Label="Permissions ID" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
+                <FieldControl Label="Permissions name" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.NAME"></FieldControl>
+                <FieldControl Label="Inactive" CssClassDiv="py-2 col-md-4" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
+            </div>
+
+            <DataGridControl TItem="MenuModel" Columns="this.ColumnDefinitionsMenu" DataItems="this.SelectItem.Menu" PagingEnabled="false"
+                             TableClass="table-hover">
+            </DataGridControl>
+
+            <CommandControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" SaveIsSubmit="true" Init="this.Init" />
+        </EditForm>
+    </Control>
+</ModalControl>

@@ -24,8 +24,6 @@ namespace MetaFrm.Management.Razor
         internal List<ColumnDefinitions>? ColumnDefinitionsMenu;
 
         internal MenuPermissionsModel SelectItem = new();
-
-        internal GroupWindowStatus GroupWindowStatus = GroupWindowStatus.Close;
         #endregion
 
 
@@ -311,13 +309,6 @@ namespace MetaFrm.Management.Razor
             };
 
             this.SearchMenu();
-
-            this.GroupWindowStatus = GroupWindowStatus.Maximize;
-        }
-
-        private void Close()
-        {
-            this.GroupWindowStatus = GroupWindowStatus.Close;
         }
         #endregion
     }

@@ -3,7 +3,6 @@ using MetaFrm.Extensions;
 using MetaFrm.Management.Razor.Models;
 using MetaFrm.Management.Razor.ViewModels;
 using MetaFrm.Razor.DataGrid;
-using MetaFrm.Razor.Group;
 using MetaFrm.Service;
 using MetaFrm.Web.Bootstrap;
 using Microsoft.AspNetCore.Components.Web;
@@ -19,39 +18,12 @@ namespace MetaFrm.Management.Razor
         internal B003ViewModel B003ViewModel { get; set; } = Factory.CreateViewModel<B003ViewModel>();
 
         internal DataGridControl<MenuPermissionsModel>? DataGridControl;
-        internal List<ColumnDefinitions>? ColumnDefinitions;
-
-        internal List<ColumnDefinitions>? ColumnDefinitionsMenu;
 
         internal MenuPermissionsModel SelectItem = new();
         #endregion
 
 
         #region Init
-        /// <summary>
-        /// OnInitialized
-        /// </summary>
-        protected override void OnInitialized()
-        {
-            if (this.ColumnDefinitions == null)
-            {
-                this.ColumnDefinitions = new();
-                this.ColumnDefinitions.AddRange(new ColumnDefinitions[] {
-                    new ColumnDefinitions{ DataField = nameof(MenuPermissionsModel.NAME), Caption = "Permissions", DataType = DbType.NVarChar, Class = "text-break", SortDirection = SortDirection.Ascending },
-                    new ColumnDefinitions{ DataField = nameof(MenuPermissionsModel.INACTIVE_DATE), Caption = "Inactive", DataType = DbType.DateTime, Class = "text-break", Alignment = Alignment.Center, SortDirection = SortDirection.Normal, Format = "yyyy-MM-dd HH:mm" }});
-            }
-
-            if (this.ColumnDefinitionsMenu == null)
-            {
-                this.ColumnDefinitionsMenu = new();
-                this.ColumnDefinitionsMenu.AddRange(new ColumnDefinitions[] {
-                    new ColumnDefinitions{ DataField = nameof(MenuModel.CHK), Caption = "", DataType = DbType.Bit, SortDirection = SortDirection.NotSet, Alignment = Alignment.Center, Editable = true },
-                    new ColumnDefinitions{ DataField = nameof(MenuModel.NAME), Caption = "Menu", DataType = DbType.NVarChar, Class = "text-break", SortDirection = SortDirection.NotSet },
-                    new ColumnDefinitions{ DataField = nameof(MenuModel.PARENT_NAME), Caption = "Parent", DataType = DbType.NVarChar, Class = "text-break", SortDirection = SortDirection.NotSet },
-                    new ColumnDefinitions{ DataField = nameof(MenuModel.NAMESPACE), Caption = "Namespace", DataType = DbType.NVarChar, Class = "text-break", SortDirection = SortDirection.NotSet } });
-            }
-        }
-
         /// <summary>
         /// OnAfterRenderAsync
         /// </summary>
@@ -141,9 +113,7 @@ namespace MetaFrm.Management.Razor
             finally
             {
                 this.B003ViewModel.IsBusy = false;
-#pragma warning disable CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
                 this.SetSession(nameof(B003ViewModel), this.B003ViewModel);
-#pragma warning restore CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
             }
         }
         private void SearchMenu()
@@ -202,9 +172,7 @@ namespace MetaFrm.Management.Razor
             finally
             {
                 this.B003ViewModel.IsBusy = false;
-#pragma warning disable CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
                 this.SetSession(nameof(B003ViewModel), this.B003ViewModel);
-#pragma warning restore CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿@using MetaFrm.Control
+@using MetaFrm.Database
 @using MetaFrm.Management.Razor.Models
 @using MetaFrm.Razor.Command
 @using MetaFrm.Razor.DataGrid
@@ -12,10 +13,14 @@
 
 <TitleControl Title="@this.GetAttribute("Description")"></TitleControl>
 
-<DataGridControl TItem="MenuPermissionsModel" @ref="this.DataGridControl" Columns="this.ColumnDefinitions" DataItems="this.B003ViewModel.SelectResultModel" PagingEnabled="true"
+<DataGridControl TItem="MenuPermissionsModel" @ref="this.DataGridControl" DataItems="this.B003ViewModel.SelectResultModel" PagingEnabled="true"
                  TableClass="table-hover"
                  MovePage="this.Search"
-                 RowModify="this.RowModify">
+                 RowModify="this.RowModify"
+                 Columns="@(new ColumnDefinitions[] {
+                    new(DbType.Int, SortDirection.Normal, Alignment.Right, nameof(MenuPermissionsModel.RESPONSIBILITY_ID), "Permissions ID", "d-none d-sm-table-cell"),
+                    new(DbType.NVarChar, SortDirection.Ascending, Alignment.NotSet, nameof(MenuPermissionsModel.NAME), "Permissions"),
+                    new(DbType.DateTime, SortDirection.Normal, Alignment.Center, nameof(MenuPermissionsModel.INACTIVE_DATE), "Inactive", "", "", "", "yyyy-MM-dd HH:mm")})">
     <SearchInputControl>
         <input type="text" class="form-control rounded-start" placeholder="Search" @bind-value="@this.B003ViewModel.SearchModel.SEARCH_TEXT" @onkeyup="@SearchKeydown" />
     </SearchInputControl>
@@ -37,8 +42,13 @@
                 <FieldControl Label="Inactive" CssClassDiv="py-2 col-md-4" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
             </div>
 
-            <DataGridControl TItem="MenuModel" Columns="this.ColumnDefinitionsMenu" DataItems="this.SelectItem.Menu" PagingEnabled="false"
-                             TableClass="table-hover">
+            <DataGridControl TItem="MenuModel" DataItems="this.SelectItem.Menu" PagingEnabled="false"
+                             TableClass="table-hover"
+                             Columns="@(new ColumnDefinitions[] {
+                                new(DbType.Bit, SortDirection.NotSet, Alignment.Center, nameof(MenuModel.CHK), "", true),
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAME), "Menu"),
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.PARENT_NAME), "Parent"),
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAMESPACE), "Namespace", "d-none d-lg-table-cell")})">
             </DataGridControl>
 
             <CommandControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" SaveIsSubmit="true" Init="this.Init" />

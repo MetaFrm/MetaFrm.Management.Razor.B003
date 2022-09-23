@@ -9,7 +9,6 @@
 <TitleControl Title="@this.GetAttribute("Description")"></TitleControl>
 
 <DataGridControl TItem="MenuPermissionsModel" @ref="this.DataGridControl" DataItems="this.B003ViewModel.SelectResultModel" PagingEnabled="true"
-                 TableClass="table-hover"
                  MovePage="this.Search"
                  RowModify="this.RowModify"
                  Columns="@(new ColumnDefinitions[] {
@@ -26,19 +25,19 @@
     </SearchButtonControl>
 </DataGridControl>
 
-<ModalControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))">
+<ModalControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" HeaderText="@(this.SelectItem == null || this.SelectItem.RESPONSIBILITY_ID == null ? "New" : "Edit")">
     <Control>
         <EditForm class="container" Model="@this.SelectItem" OnValidSubmit="this.Save">
             <DataAnnotationsValidator />
 
             <div class="row">
-                <FieldControl Label="Permissions ID" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
-                <FieldControl Label="Permissions name" CssClassDiv="py-2 col-md-4" Value="this.SelectItem.NAME"></FieldControl>
-                <FieldControl Label="Inactive" CssClassDiv="py-2 col-md-4" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
+                <FieldControl Label="Permissions ID" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
+                <FieldControl Label="Inactive" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
             </div>
 
+            <FieldControl Label="Permissions name" CssClassAppend="py-2 col-md-12" Value="this.SelectItem.NAME"></FieldControl>
+
             <DataGridControl TItem="MenuModel" DataItems="this.SelectItem.Menu" PagingEnabled="false"
-                             TableClass="table-hover"
                              Columns="@(new ColumnDefinitions[] {
                                 new(DbType.Bit, SortDirection.NotSet, Alignment.Center, nameof(MenuModel.CHK), "", true),
                                 new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAME), "Menu"),

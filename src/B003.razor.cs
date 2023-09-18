@@ -34,7 +34,7 @@ namespace MetaFrm.Management.Razor
         {
             try
             {
-                if (this.JSRuntime != null)
+                if (this.JSRuntime != null && this.DataGridControl != null)
                 {
                     System.Drawing.Size browserDimension = await this.JSRuntime.InvokeAsync<System.Drawing.Size>("getDimensions", null);
                     int? tmp = (browserDimension.Height - 210) / this.DataGridControl.HeaderHeight;
@@ -55,7 +55,7 @@ namespace MetaFrm.Management.Razor
         {
             if (firstRender)
             {
-                if (!this.IsLogin())
+                if (!this.AuthState.IsLogin())
                     this.Navigation?.NavigateTo("/", true);
 
                 this.B003ViewModel = await this.GetSession<B003ViewModel>(nameof(this.B003ViewModel));
@@ -93,11 +93,11 @@ namespace MetaFrm.Management.Razor
 
                 ServiceData serviceData = new()
                 {
-                    Token = this.UserClaim("Token")
+                    Token = this.AuthState.Token()
                 };
                 serviceData["1"].CommandText = this.GetAttribute("Search");
                 serviceData["1"].AddParameter(nameof(this.B003ViewModel.SearchModel.SEARCH_TEXT), DbType.NVarChar, 4000, this.B003ViewModel.SearchModel.SEARCH_TEXT);
-                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.UserClaim("Account.USER_ID").ToInt());
+                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.AuthState.UserID());
                 serviceData["1"].AddParameter("PAGE_NO", DbType.Int, 3, this.DataGridControl != null ? this.DataGridControl.CurrentPageNumber : 1);
                 serviceData["1"].AddParameter("PAGE_SIZE", DbType.Int, 3, this.DataGridControl != null && this.DataGridControl.PagingEnabled ? this.DataGridControl.PagingSize : int.MaxValue);
 
@@ -151,11 +151,11 @@ namespace MetaFrm.Management.Razor
 
                 ServiceData serviceData = new()
                 {
-                    Token = this.UserClaim("Token")
+                    Token = this.AuthState.Token()
                 };
                 serviceData["1"].CommandText = this.GetAttribute("SearchMenu");
                 serviceData["1"].AddParameter(nameof(this.SelectItem.RESPONSIBILITY_ID), DbType.Int, 3, this.SelectItem.RESPONSIBILITY_ID);
-                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.UserClaim("Account.USER_ID").ToInt());
+                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.AuthState.UserID());
 
                 response = serviceData.ServiceRequest(serviceData);
 
@@ -218,11 +218,11 @@ namespace MetaFrm.Management.Razor
                 ServiceData serviceData = new()
                 {
                     TransactionScope = true,
-                    Token = this.UserClaim("Token")
+                    Token = this.AuthState.Token()
                 };
                 serviceData["1"].CommandText = this.GetAttribute("Delete");
                 serviceData["1"].AddParameter(nameof(this.SelectItem.RESPONSIBILITY_ID), DbType.Int, 3, this.SelectItem.RESPONSIBILITY_ID);
-                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.UserClaim("Account.USER_ID").ToInt());
+                serviceData["1"].AddParameter("USER_ID", DbType.Int, 3, this.AuthState.UserID());
 
                 serviceData["2"].CommandText = this.GetAttribute("Save");
                 serviceData["2"].AddParameter(nameof(this.SelectItem.RESPONSIBILITY_ID), DbType.Int, 3);
@@ -236,7 +236,7 @@ namespace MetaFrm.Management.Razor
                         serviceData["2"].NewRow();
                         serviceData["2"].SetValue(nameof(this.SelectItem.RESPONSIBILITY_ID), this.SelectItem.RESPONSIBILITY_ID);
                         serviceData["2"].SetValue(nameof(menu.MENU_ID), menu.MENU_ID);
-                        serviceData["2"].SetValue("USER_ID", this.UserClaim("Account.USER_ID").ToInt());
+                        serviceData["2"].SetValue("USER_ID", this.AuthState.UserID());
                     }
                 }
 

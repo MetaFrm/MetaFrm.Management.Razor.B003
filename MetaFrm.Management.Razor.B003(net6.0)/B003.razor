@@ -12,11 +12,11 @@
                  MovePage="this.Search"
                  RowModify="this.RowModify"
                  Columns="@(new ColumnDefinitions[] {
-                    new(DbType.Int, SortDirection.Normal, Alignment.Right, nameof(MenuPermissionsModel.RESPONSIBILITY_ID), "Permissions ID", "d-none d-sm-table-cell"),
-                    new(DbType.NVarChar, SortDirection.Ascending, Alignment.NotSet, nameof(MenuPermissionsModel.NAME), "Permissions"),
-                    new(DbType.DateTime, SortDirection.Normal, Alignment.Center, nameof(MenuPermissionsModel.INACTIVE_DATE), "Inactive", "", "", "", "yyyy-MM-dd HH:mm")})">
+                    new(DbType.Int, SortDirection.Normal, Alignment.Right, nameof(MenuPermissionsModel.RESPONSIBILITY_ID), "ID", "d-none d-sm-table-cell"),
+                    new(DbType.NVarChar, SortDirection.Ascending, Alignment.NotSet, nameof(MenuPermissionsModel.NAME), "권한"),
+                    new(DbType.DateTime, SortDirection.Normal, Alignment.Center, nameof(MenuPermissionsModel.INACTIVE_DATE), "비활성", "", "", "", "yyyy-MM-dd HH:mm")})">
     <SearchInputControl>
-        <input type="text" class="form-control rounded-start" placeholder="Search" @bind-value="@this.B003ViewModel.SearchModel.SEARCH_TEXT" @onkeyup="@SearchKeydown" />
+        <input type="text" class="form-control rounded-start" placeholder="@Localization["검색"]" @bind-value="@this.B003ViewModel.SearchModel.SEARCH_TEXT" @onkeyup="@SearchKeydown" />
     </SearchInputControl>
     <SearchButtonControl>
         <button class="btn btn-outline-primary btn-rounded-end" type="submit" @onclick="(() => this.OnSearch())">
@@ -25,27 +25,30 @@
     </SearchButtonControl>
 </DataGridControl>
 
-<ModalControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" HeaderText="@(this.SelectItem == null || this.SelectItem.RESPONSIBILITY_ID == null ? "New" : "Edit")">
+<ModalControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" HeaderText="@(this.SelectItem == null || this.SelectItem.RESPONSIBILITY_ID == null ? "신규" : "수정")">
     <Control>
         <EditForm class="container" Model="@this.SelectItem" OnValidSubmit="this.Save">
             <DataAnnotationsValidator />
 
-            <div class="row">
-                <FieldControl Label="Permissions ID" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
-                <FieldControl Label="Inactive" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
-            </div>
+            @if (this.SelectItem != null)
+            {
+                <div class="row">
+                    <FieldControl Label="ID" Value="this.SelectItem.RESPONSIBILITY_ID"></FieldControl>
+                    <FieldControl Label="비활성" Value="@($"{this.SelectItem.INACTIVE_DATE:yyyy-MM-dd HH:mm}")"></FieldControl>
+                </div>
 
-            <FieldControl Label="Permissions name" CssClassAppend="py-2 col-md-12" Value="this.SelectItem.NAME"></FieldControl>
+                <FieldControl Label="권한명" CssClassAppend="py-2 col-md-12" Value="this.SelectItem.NAME"></FieldControl>
 
-            <DataGridControl TItem="MenuModel" DataItems="this.SelectItem.Menu" PagingEnabled="false"
-                             Columns="@(new ColumnDefinitions[] {
+                <DataGridControl TItem="MenuModel" DataItems="this.SelectItem.Menu" PagingEnabled="false"
+                                 Columns="@(new ColumnDefinitions[] {
                                 new(DbType.Bit, SortDirection.NotSet, Alignment.Center, nameof(MenuModel.CHK), "", true),
-                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAME), "Menu"),
-                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.PARENT_NAME), "Parent"),
-                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAMESPACE), "Namespace", "d-none d-lg-table-cell")})">
-            </DataGridControl>
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAME), "메뉴"),
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.PARENT_NAME), "부모"),
+                                new(DbType.NVarChar, SortDirection.NotSet, Alignment.NotSet, nameof(MenuModel.NAMESPACE), "네임스페이스", "d-none d-lg-table-cell")})">
+                </DataGridControl>
 
-            <CommandControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" SaveIsSubmit="true" Init="this.Init" />
+                <CommandControl TItem="MenuPermissionsModel" SelectItem="this.SelectItem" SelectItemKeyProperty="@(nameof(this.SelectItem.RESPONSIBILITY_ID))" SaveIsSubmit="true" Init="this.Init" />
+            }
         </EditForm>
     </Control>
 </ModalControl>

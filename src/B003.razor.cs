@@ -102,13 +102,13 @@ namespace MetaFrm.Management.Razor
                 {
                     if (response.Message != null)
                     {
-                        this.ModalShow("Warning", response.Message, new() { { "Ok", Btn.Warning } }, null);
+                        this.ModalShow("경고", response.Message, new() { { "확인", Btn.Warning } }, null);
                     }
                 }
             }
             catch (Exception e)
             {
-                this.ModalShow("An Exception has occurred.", e.Message, new() { { "Ok", Btn.Danger } }, null);
+                this.ModalShow("예외가 발생했습니다.", e.Message, new() { { "확인", Btn.Danger } }, null);
             }
             finally
             {
@@ -161,13 +161,13 @@ namespace MetaFrm.Management.Razor
                 {
                     if (response.Message != null)
                     {
-                        this.ModalShow("Warning", response.Message, new() { { "Ok", Btn.Warning } }, null);
+                        this.ModalShow("경고", response.Message, new() { { "확인", Btn.Warning } }, null);
                     }
                 }
             }
             catch (Exception e)
             {
-                this.ModalShow("An Exception has occurred.", e.Message, new() { { "Ok", Btn.Danger } }, null);
+                this.ModalShow("예외가 발생했습니다.", e.Message, new() { { "확인", Btn.Danger } }, null);
             }
             finally
             {
@@ -230,19 +230,19 @@ namespace MetaFrm.Management.Razor
                             this.SelectItem.RESPONSIBILITY_ID = value.ToInt();
                     }
 
-                    this.ToastShow("Completed", $"{this.GetAttribute("Title")} registered successfully.", Alert.ToastDuration.Long);
+                    this.ToastShow("완료", this.Localization["{0}이(가) 등록되었습니다.", this.GetAttribute("Title")], Alert.ToastDuration.Long);
                 }
                 else
                 {
                     if (response.Message != null)
                     {
-                        this.ModalShow("Warning", response.Message, new() { { "Ok", Btn.Warning } }, null);
+                        this.ModalShow("경고", response.Message, new() { { "확인", Btn.Warning } }, null);
                     }
                 }
             }
             catch (Exception e)
             {
-                this.ModalShow("An Exception has occurred.", e.Message, new() { { "Ok", Btn.Danger } }, null);
+                this.ModalShow("예외가 발생했습니다.", e.Message, new() { { "확인", Btn.Danger } }, null);
             }
             finally
             {

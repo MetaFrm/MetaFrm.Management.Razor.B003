@@ -10,7 +10,7 @@ namespace MetaFrm.Management.Razor.Models
         /// <summary>
         /// CHK
         /// </summary>
-        [Display(Name = "Check")]
+        [Display(Name = "체크")]
         public bool CHK { get; set; } = true;
 
         /// <summary>
